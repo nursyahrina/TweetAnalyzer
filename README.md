@@ -1,0 +1,2 @@
+# TweetAnalyzer
+Tugas Besar 3 perkelompok matakuliah Strategi Algoritma 2016. Aplikasi sederhana analisis tweet berbasis kata kunci. Tweet yang berhasil diunduh dari Twitter dianalisis untuk selanjutnya didisposisikan ke dinas atau instansi yang terkait. Salah satu fungsi dasar yang digunakan dalam sistem analisis teks ini adalah pencocokan string. Algoritma pencocokan string (pattern) yang digunakan adalah Knuth-Morris-Pratt (KMP), dan Boyer-Moore (BM).  
