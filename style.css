@@ -1,0 +1,67 @@
+body {
+    background-color: #fff;
+    font-family: Consolas, sans-serif;
+}
+.nav{
+    /*background-color: #f0f8ff;*/
+    color : #fff;
+    font-size: large;
+    /*border: 8px solid;*/
+    font-weight: bold;
+}
+.jumbotron {
+    margin-top: 40px;
+    padding-top: 70px;
+    color: #fff;
+    background-image: url("header.jpg");
+    text-align: center;
+    font-size: x-large;
+}
+.container {
+    /*margin-top: 30px;*/
+    background-color: #87ceeb;
+}
+#about {
+    text-align: center;
+}
+#post-page {
+	border: 10px dashed #87ceeb;
+    background-color: #f0f8ff;
+    margin-top: 25px;
+}
+#block-about {
+	padding-top: 25px;
+}
+#block-how-to{
+	padding-top: 20px;
+	padding-bottom: 20px;
+    margin-left: 20px;
+	border-right: 18px double #87ceeb;
+    background-color: #f0f8ff;
+}
+#block-how-to h2 {
+	margin-bottom: 20px;
+	text-align: left;
+}
+
+#block-form h3 {
+	margin-bottom: 20px;
+	text-align: center;
+}
+#link_result {
+    text-align: center;
+    margin-bottom: 20px;
+}
+#about {
+    padding-right: 20px;
+}
+footer {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #1e90ff;
+}
+td {
+    padding : 20px 20px 20px 20px;
+    width : 1100px;
+}

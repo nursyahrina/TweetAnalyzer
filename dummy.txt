@@ -1,0 +1,298 @@
+ AIzaSyAJYVgxgabmYuAC-6GZzB2Glu8hn0ibztg 
+echo '<iframe
+                        width="600"
+                        height="450"
+                        frameborder="0" style="border:0" 
+                        src= '.$src.' allowfullscreen>
+                    </iframe>';
+
+
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+        <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+        <!-- Latest compiled JavaScript -->
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+        <link rel="stylesheet" href="style.css">
+        <title>About | RisoL CocoL</title>
+    </head>
+    <body>
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand"><strong>RisoL CocoL</strong></a>
+                </div>
+                <div>
+                    <ul class="nav navbar-nav">
+                        <li><a href="index.html">Home</a></li>
+                        <li class="active"><a href="about.html">About</a></li>
+                        <li><a href="page-timeline.html">Page</a></li> 
+                        <li><a href="contact.html">Contact</a></li> 
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="jumbotron">
+            <h1>RisoL CocoL</h1> 
+            <p>First experience on web building</p> 
+        </div>
+
+        <div class="container">   
+            <div id="about" class="row">
+                <h1>Find Us on:</h1>
+                <div class="col-sm-3">
+                    <a href="https://www.facebook.com/amirahsari.nursyahrina"><h3>Nursyahrina</h3></a>
+                </div>
+                <div id="post-page" class="col-sm-3">
+                    <a href="https://twitter.com/nursy_81"><h3>@nursy_81</h3></a>
+                </div>
+                <div class="col-sm-3">
+                    <a href="https://www.instagram.com/nursy_81/"><h3>@risolcocol</h3></a>
+                </div>
+                <div id="post-page" class="col-sm-3">
+                    <h3>Contact</h3>
+                    <a href="gmail.com"><h3>mail.risolcocol.com</h3></a>
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>
+
+
+
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace StringMatchingKMP
+{
+    class StringMatchingKMP
+    {
+        private static string[] arrayString = new string[130];
+        private static string[] arrayPattern = new string[15];
+        private static int nString = 0;
+        private static int nPattern = 0;
+        private static int idxmin = -1; //indeks kemuculan pattern paling awal
+        private static int pattern = 0; //momor klasifikasi pattern
+
+        /*
+         * Membaca string teks dari file teks tweets.txt dan menyimpannya ke arrayString
+         * */
+        public static void readStringsFromFile()
+        {
+            string line = "";
+
+            // Read the file and save it in arrayString.
+            System.IO.StreamReader file = new System.IO.StreamReader(@"c:\xampp\htdocs\TweetAnalyzer\text\tweets.txt");
+            while ((line = file.ReadLine()) != null)
+            {
+                arrayString[nString] = line;
+                nString++;
+            }
+
+            file.Close();
+
+        }
+
+        /*
+         * Membaca pattern dari file teks form.txt dan menyimpannya ke arrayPattern
+         * */
+        public static void readPatternFromFile()
+        {
+            string line = "";
+
+            // Read the file and save it in arrayString.
+            System.IO.StreamReader file = new System.IO.StreamReader(@"c:\xampp\htdocs\TweetAnalyzer\text\form.txt");
+
+            while ((line = file.ReadLine()) != null)
+            {
+                arrayPattern[nPattern] = line;
+                nPattern++;
+            }
+
+            file.Close();
+
+        }
+
+        /* 
+         * Menghitung dan mengembalikan fail (failure function) atau border function dari pattern
+         * */
+        public static int[] computeFail(string pattern)
+        {
+            int[] fail = new int[pattern.Length];
+            fail[0] = 0;
+
+            int m = pattern.Length;
+            int j = 0;
+            int i = 1;
+
+            while (i < m)
+            {
+                if (pattern[j] == pattern[i]) //j+1 chars match
+                {
+                    fail[i] = j + 1;
+                    i++;
+                    j++;
+                }
+                else if (j > 0) //j follows matching prefix
+                    j = fail[j - 1];
+                else { //no match
+                    fail[i] = 0;
+                    i++;
+                }
+            }
+            return fail;
+        }
+
+        /*
+         * String matching dengan algoritma Knuth-Morris-Pratt (KMP) 
+         * Mengembalikan posisi kemunculan pattern di teks atau -1 jika teks tidak cocok dengan pattern manapun.
+         * */
+        public static int kmpMatch(string text, string pattern)
+        // return index where pattern starts if there is pattern in text, or -1 if there's no
+        {
+            text = text.ToLower();
+            pattern = pattern.ToLower();
+            int n = text.Length;
+            int m = pattern.Length;
+
+            int[] fail = computeFail(pattern);
+
+            int i = 0;
+            int j = 0;
+
+            while (i < n)
+            {
+                if (pattern[j] == text[i])
+                {
+                    if (j == m - 1)
+                        return i - m + 1; //match
+                    i++;
+                    j++;
+                }
+                else if (j > 0)
+                    j = fail[j - 1];
+                else
+                    i++;
+            }
+            return -1; //no match
+        }
+
+        /*
+         * Melakukan pengecekan teks pada arrayString elemen ke-i dengan algoritma string matching
+         * Jika teks tidak cocok dengan pattern manapun, teks termasuk kelompok tak terkategori (else)
+         * */
+        public static void checkString(int p, int i)
+        {
+            int idx = -1;
+            int j = 0;
+
+            while (j < arrayPattern[p].Length)
+            {
+                string strpattern = "";
+                while (arrayPattern[p][j] == ' ') j++;
+                while ((arrayPattern[p][j] != ';') && (j < arrayPattern[p].Length - 1))
+                {
+                    strpattern += arrayPattern[p][j];
+                    j++;
+                }
+                if (j == arrayPattern[p].Length - 1)
+                {
+                    strpattern += arrayPattern[p][j];
+                }
+
+                idx = kmpMatch(arrayString[i], strpattern);
+
+                if (idx != -1)
+                {
+                    if (idxmin != -1)
+                    {
+                        if (idx < idxmin)
+                        {
+                            idxmin = idx;
+                            pattern = p;
+                        }
+                    }
+                    else
+                    {
+                        idxmin = idx;
+                        pattern = p;
+                    }
+                }
+
+                j++;
+
+            }
+
+
+        }
+
+        /*
+         * Mengelompokkan string teks dari arrayString berdasarkan pattern yang sesuai
+         * Jika teks tidak cocok dengan pattern manapun, teks termasuk kelompok tak terkategori (else)
+         * */
+        public static void classifyStrings()
+        {
+            string strPattern1 = "";
+            string strPattern2 = "";
+            string strPattern3 = "";
+            string strPattern4 = "";
+            string strPattern5 = "";
+            string strElse = "";
+
+            for (int i = 0; i < nString; i++)
+            {
+                idxmin = -1;
+                pattern = 0;
+                //pengecekan string teks (string matching) dengan masing-masing pattern
+                //diklasifikasikan sesuai pattern dengan kemunculan di teks paling awal
+                checkString(1, i);
+                checkString(2, i);
+                checkString(3, i);
+                checkString(4, i);
+                checkString(5, i);
+
+                //menggabungkan semua teks dengan klasifikasi yang sama sesuai pattern
+                switch (pattern)
+                {
+                    case 1: { strPattern1 += arrayString[i] + "\n"; break; }
+                    case 2: { strPattern2 += arrayString[i] + "\n"; break; }
+                    case 3: { strPattern3 += arrayString[i] + "\n"; break; }
+                    case 4: { strPattern4 += arrayString[i] + "\n"; break; }
+                    case 5: { strPattern5 += arrayString[i] + "\n"; break; }
+                    default: { strElse += arrayString[i] + "\n"; break; }
+                }
+
+            }
+            //menyimpan string hasil klasifikasi sesuai pattern ke file txt
+            System.IO.File.WriteAllText(@"c:\xampp\htdocs\TweetAnalyzer\text\dinas1.txt", strPattern1);
+            System.IO.File.WriteAllText(@"c:\xampp\htdocs\TweetAnalyzer\text\dinas2.txt", strPattern2);
+            System.IO.File.WriteAllText(@"c:\xampp\htdocs\TweetAnalyzer\text\dinas3.txt", strPattern3);
+            System.IO.File.WriteAllText(@"c:\xampp\htdocs\TweetAnalyzer\text\dinas4.txt", strPattern4);
+            System.IO.File.WriteAllText(@"c:\xampp\htdocs\TweetAnalyzer\text\dinas5.txt", strPattern5);
+            System.IO.File.WriteAllText(@"c:\xampp\htdocs\TweetAnalyzer\text\else.txt", strElse);
+        }
+
+        static void Main(string[] args)
+        {
+
+            readStringsFromFile();
+            readPatternFromFile();
+            classifyStrings();
+
+        }
+    }
+}
